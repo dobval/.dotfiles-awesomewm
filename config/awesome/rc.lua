@@ -133,6 +133,23 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
+  -- Define layouts
+local layouts = {"us","de","bg phonetic"}
+local current_layout = 1 
+  -- Toggle layouts
+local function toggle_keyboard_layout()
+  current_layout = current_layout % #layouts + 1
+  local layout = layouts[current_layout]
+  local command = "setxkbmap " .. layout 
+  -- Debug: Print command
+  print("Executing: " .. command) 
+  -- Execute the command
+  awful.spawn.with_shell(command)
+end 
+  -- Keybinding to toggle layouts 
+ --  awful.key({ "Mod1" }, "Shift_L", function () toggle_keyboard_layout() end, 
+-- {description = "toggle keyboard layout", group = "custom"}) 
+
 
 -- {{{ Wibar
 -- Create a textclock widget
@@ -282,6 +299,10 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+   awful.key({ "Mod1" }, "Shift_L", function () toggle_keyboard_layout() end, 
+              {description = "toggle keyboard layout", group = "custom"}),
+    awful.key({ modkey }, "e", function () awful.spawn("dolphin --platformtheme kde") end,
+              {description = "open pcmanfm", group = "custom"}),
     awful.key({}, "XF86AudioRaiseVolume", function() volume_widget.inc() end),
     awful.key({}, "XF86AudioLowerVolume", function() volume_widget.dec() end),
     awful.key({}, "XF86AudioMute", function() volume_widget.toggle() end),

@@ -114,5 +114,3 @@ fi
 
 # fastfetch
 fastfetch
-
-
